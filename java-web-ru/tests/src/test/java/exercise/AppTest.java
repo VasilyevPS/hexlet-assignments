@@ -31,7 +31,7 @@ class AppTest {
     }
 
     @AfterAll
-    public static void AfterAll() {
+    public static void afterAll() {
         app.stop();
     }
     // END
