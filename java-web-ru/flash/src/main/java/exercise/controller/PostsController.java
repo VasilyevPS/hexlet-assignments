@@ -22,26 +22,28 @@ public class PostsController {
     public static void create(Context ctx) {
         try {
             var name = ctx.formParamAsClass("name", String.class)
-                    .check(value -> value.length() >= 2, "Название поста слишком короткое")
+                    .check(value -> value.length() >= 2, "Название не должно быть короче двух символов")
                     .get();
             var body = ctx.formParam("body");
             var post = new Post(name, body);
             PostRepository.save(post);
             ctx.sessionAttribute("flash", "Пост был успешно создан!");
+            ctx.sessionAttribute("flash-type", "success");
             ctx.redirect(NamedRoutes.postsPath());
+
         } catch (ValidationException e) {
             var name = ctx.formParam("name");
             var body = ctx.formParam("body");
             var page = new BuildPostPage(name, body, e.getErrors());
-            ctx.render("posts/build.jte", Collections.singletonMap("page", page));
+            ctx.render("posts/build.jte", Collections.singletonMap("page", page)).status(422);
         }
     }
 
     public static void index(Context ctx) {
         var posts = PostRepository.getEntities();
-        String flash = ctx.consumeSessionAttribute("flash");
         var page = new PostsPage(posts);
-        page.setFlash(flash);
+        page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("posts/index.jte", Collections.singletonMap("page", page));
     }
     // END

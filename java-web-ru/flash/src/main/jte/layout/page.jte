@@ -16,10 +16,26 @@
         <title>Flash lesson</title>
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/posts">Posts</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         @if(page != null && page.getFlash() != null)
-            <p>${page.getFlash()}</p>
+            <div class="alert alert-${page.getFlashType()}" role="alert">
+                ${page.getFlash()}
+            </div>
         @endif
-        ${content}
+        <div class="mx-auto p-4 py-md-5">
+            ${content}
+        </div>
     </body>
 </html>
 <!-- END -->
