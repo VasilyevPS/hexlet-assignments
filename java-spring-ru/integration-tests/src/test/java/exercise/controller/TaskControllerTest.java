@@ -50,7 +50,7 @@ public class TaskControllerTest {
         return Instancio.of(Task.class)
                 .ignore(Select.field("id"))
                 .supply(Select.field("title"), () -> faker.lorem().word())
-                .supply(Select.field("description"), () -> faker.lorem().paragraph())
+                .supply(Select.field("description"), () -> faker.lorem().paragraph(1))
                 .create();
     }
 
